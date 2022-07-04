@@ -1,0 +1,8 @@
+// cria uma dependencia como dev
+npm install 'package' --save-dev
+
+// cria um arquivo
+touch 'arquivo.extensao'
+
+// remove um um arquivo/pasta
+rm 'arquivo/pasta'
