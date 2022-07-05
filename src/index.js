@@ -7,18 +7,10 @@ dotenv.config();
 // Criar uma constante que representa a nossa aplicação como um todo, 
 // vamos a chamar de app e ela recebe a invocação do express
 const app = express();
+app.use(express.json());
 
-
-// criar uma rota que vai listar todos os cadastros
-app.get('/clientes', async (req, res) => {
-    const sql = `select * from clientes`;
-    const clientes = await db.query(sql);
-    let clearClientes = {
-        quantidade: clientes.rowCount,
-        clientes: clientes.rows.map(c => ({id: c.id, nome: c.nome, email: c.email}))
-    }
-    res.status(200).send(clearClientes);
-});
+// Middleware
+require('./routes/index')(app)
 
 // Definise-se em qual porta a palicação vai rodar
 // para isso usamos a função .listen(PORT, CALLBACK())
