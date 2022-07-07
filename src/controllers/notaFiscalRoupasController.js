@@ -10,6 +10,7 @@ const getAllNotaFiscalRoupas = async (req, res) => {
 }
 
 const getNotaFiscalRoupaById = async (req, res) => {
+    console.log('oi controller');
     try {
         const notaFiscalRoupa = await notaFiscalRoupasService.getNotaFiscalRoupaById(req.params);
         res.status(200).send(notaFiscalRoupa);

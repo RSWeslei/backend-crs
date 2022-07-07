@@ -1,5 +1,3 @@
-const { query } = require('express');
-const { param } = require('express/lib/request');
 const db = require('../config/db');
 
 // retorna todos notaFiscal
@@ -18,15 +16,37 @@ const getNotaFiscalById = async (params) => {
 
 // insere um novo notaFiscal
 const insertNotaFiscal = async (params) => {
-    let {valor, emissao, numero, id_cliente} = params;
+    const {emissao, numero, id_cliente} = params;
     let sql = `insert into nota_fiscal(
         valor,
         emissao,
         numero,
         id_cliente
-    ) values ($1, $2, $3, $4) returning id`;
-    let notaFiscal = await db.query(sql, [valor, emissao, numero, id_cliente]);
-    return notaFiscal.rows[0];
+    ) values($1, $2, $3, $4) returning id;`
+    let sqlNotaRoupa = `insert into nota_fiscal_roupas(
+        quantidade, 
+        valor, 
+        id_nota_fiscal, 
+        id_roupa
+    ) values($1, $2, $3, $4);`
+    const idNota = await (await db.query(sql, [0, emissao, numero, id_cliente])).rows[0].id
+    for (const roupa of params.roupas)
+    {
+        const {quantidade, diferenca, id_roupa} = roupa
+        let sql = `select preco_venda from roupas where $1 = id;`
+        let valor = await (await db.query(sql, [id_roupa])).rows[0].preco_venda
+        valor = (Number(valor) + diferenca) * quantidade
+        roupa.valor = valor
+        await db.query(sqlNotaRoupa, [quantidade, Number(valor), idNota, id_roupa])
+    }
+    let valorAtualizado = await somarValorRoupas(params.roupas)
+    await db.query(`update nota_fiscal set valor = $1 where $2 = id;`, [valorAtualizado.toFixed(2), idNota])
+    return params.roupas
+}
+
+const somarValorRoupas = async (roupas) => {
+    return roupas.map(roupa => Number(roupa.valor))
+    .reduce((soma, valorAtual) => soma + valorAtual)  
 }
 
 const deleteNotaFiscalById = async (params) => {

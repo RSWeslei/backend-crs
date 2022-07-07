@@ -10,7 +10,7 @@ const getAllNotaFiscalRoupas = async () => {
 }
 
 // retorna um notaFiscalRoupa pelo id
-const getnotaFiscalRoupaById = async (params) => {
+const getNotaFiscalRoupaById = async (params) => {
     let sql = 'select * from nota_fiscal_roupas where id = $1';
     let notaFiscalRoupa = await db.query(sql, [params.id]);
     return notaFiscalRoupa.rows;
@@ -44,7 +44,7 @@ const patchnotaFiscalRoupa = async (params) => {
 }
 
 module.exports.getAllNotaFiscalRoupas = getAllNotaFiscalRoupas;
-module.exports.getnotaFiscalRoupaById = getnotaFiscalRoupaById;
+module.exports.getNotaFiscalRoupaById = getNotaFiscalRoupaById;
 module.exports.insertNotaFiscalRoupa = insertNotaFiscalRoupa;
 module.exports.deleteNotaFiscalRoupaById = deleteNotaFiscalRoupaById;
 module.exports.patchnotaFiscalRoupa = patchnotaFiscalRoupa;

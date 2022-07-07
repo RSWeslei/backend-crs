@@ -1,9 +1,9 @@
 const cartaoLojaController = require('../controllers/cartaoLojaController');
 
 module.exports = (app) => {
-    app.get('/cartaoLoja', cartaoLojaController.getAllCartaoLoja);
-    app.get('/cartaoLoja/:id', cartaoLojaController.getCartaoLojaById);
-    app.post('/cartaoLoja', cartaoLojaController.insertCartaoLoja);
-    app.delete('/cartaoLoja/:id', cartaoLojaController.deleteCartaoLojaById);
-    app.patch('/cartaoLoja', cartaoLojaController.patchCartaoLoja)
+    app.get('/cartao-loja', cartaoLojaController.getAllCartaoLoja);
+    app.get('/cartao-loja/:id', cartaoLojaController.getCartaoLojaById);
+    app.post('/cartao-loja', cartaoLojaController.insertCartaoLoja);
+    app.delete('/cartao-loja/:id', cartaoLojaController.deleteCartaoLojaById);
+    app.patch('/cartao-loja', cartaoLojaController.patchCartaoLoja)
 }
