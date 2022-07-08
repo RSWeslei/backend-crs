@@ -1,5 +1,3 @@
-const { query } = require('express');
-const { param } = require('express/lib/request');
 const db = require('../config/db');
 
 // retorna todos clientes
